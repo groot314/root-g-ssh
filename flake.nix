@@ -1,6 +1,6 @@
     
 {
-  description = "my project description";
+  description = "Root-G.com CLI";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
