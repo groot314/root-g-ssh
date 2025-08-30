@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"errors"
-	"fmt"
 	"net"
 	"os"
 	"os/signal"
@@ -17,6 +16,7 @@ import (
 	"github.com/charmbracelet/wish/activeterm"
 	"github.com/charmbracelet/wish/bubbletea"
 	"github.com/charmbracelet/wish/logging"
+	"github.com/groot314/root-g-ssh/pkg/tui"
 )
 
 const (
@@ -58,65 +58,6 @@ func main() {
 }
 
 func teaHandler(s ssh.Session) (tea.Model, []tea.ProgramOption) {
-	m := initialModel()
+	m := tui.NewModel()
 	return m, []tea.ProgramOption{tea.WithAltScreen()}
-}
-
-type model struct {
-	options []string
-	cursor  int
-	message []string
-}
-
-func initialModel() model {
-	return model{
-		options: []string{"About", "Website"},
-		message: []string{"This is a little about me.", "Root-G.com"},
-	}
-}
-
-func (m model) Init() tea.Cmd {
-	return nil
-}
-
-func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
-	switch msg := msg.(type) {
-
-	case tea.KeyMsg:
-		switch msg.String() {
-
-		case "ctrl+c", "q":
-			return m, tea.Quit
-		case "up", "k":
-			if m.cursor > 0 {
-				m.cursor--
-			}
-		case "down", "j":
-			if m.cursor < len(m.options)-1 {
-				m.cursor++
-			}
-		}
-	}
-	return m, nil
-}
-func (m model) View() string {
-	s := "Welcome to this.. :) Via SSH\n\n"
-
-	for i, choice := range m.options {
-		cursor := " " // no cursor
-		if m.cursor == i {
-			cursor = ">" // cursor!
-		}
-
-		s += fmt.Sprintf("%s %s\n", cursor, choice)
-	}
-	for i := range m.options {
-		if m.cursor == i {
-			s += "\n" + m.message[i] + "\n"
-		}
-	}
-
-	s += "\n\n\nPress q to quit.\n"
-
-	return s
 }
