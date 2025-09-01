@@ -2,6 +2,7 @@ package tui
 
 import (
 	"github.com/charmbracelet/bubbles/table"
+	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
@@ -9,10 +10,7 @@ import (
 type model struct {
 	contentMap map[string]string
 	leftNav    table.Model
-	body       string
-	options    []string
-	cursor     int
-	message    []string
+	body       viewport.Model
 }
 
 func NewModel() model {
@@ -21,6 +19,11 @@ func NewModel() model {
 		contentMap: map[string]string{
 			"About":   "This is about me",
 			"Website": "Root-G.com",
+			"Projects": "Current project list:\n" +
+				"- About Me CLI via SSH\n" +
+				"- Website: Root-G.com\n" +
+				"- Homelab\n" +
+				"- NixOS\n",
 		},
 	}
 
@@ -46,16 +49,23 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	return m, nil
 }
 
+var borderStyle = lipgloss.NewStyle().
+	BorderStyle(lipgloss.NormalBorder()).
+	BorderForeground(lipgloss.Color("240"))
+
 func (m model) View() string {
 
 	header := m.HeaderView()
+	nav := m.NavView()
 	body := m.ContentView()
 	footer := m.FooterView()
+
+	main := lipgloss.JoinHorizontal(lipgloss.Top, nav, body)
 
 	return lipgloss.JoinVertical(
 		lipgloss.Left,
 		header,
-		body,
+		main,
 		footer,
 	)
 }
