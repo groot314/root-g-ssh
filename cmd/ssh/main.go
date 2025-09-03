@@ -15,7 +15,7 @@ import (
 	"github.com/charmbracelet/wish"
 	"github.com/charmbracelet/wish/activeterm"
 	"github.com/charmbracelet/wish/bubbletea"
-	"github.com/charmbracelet/wish/logging"
+	"github.com/groot314/root-g-ssh/internal/logger"
 	"github.com/groot314/root-g-ssh/pkg/tui"
 )
 
@@ -31,7 +31,7 @@ func main() {
 		wish.WithMiddleware(
 			bubbletea.Middleware(teaHandler),
 			activeterm.Middleware(), // Bubble Tea apps usually require a PTY.
-			logging.Middleware(),
+			logger.WishMiddlewareLogger(),
 		),
 	)
 	if err != nil {
