@@ -23,6 +23,11 @@ func NewModel() model {
 				"- About Me CLI via SSH\n" +
 				"- Website: Root-G.com\n" +
 				"- Homelab\n" +
+				"  - 48 TB ZFS RAID-Z2\n" +
+				"  - 3 Node K3S Cluster for Kubernetes\n" +
+				"  - Grafana, Loki, Prometheus\n" +
+				"  - Proxmox with Terraform as IoC\n" +
+				"  - Cribl for logging enrichment\n" +
 				"- NixOS\n",
 		},
 	}
