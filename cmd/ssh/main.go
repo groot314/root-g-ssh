@@ -19,17 +19,14 @@ import (
 	"github.com/groot314/root-g-ssh/pkg/tui"
 )
 
-const (
-	host = "localhost"
-)
-
 func main() {
 
 	port := flag.String("port", "3030", "Port for SSH Server")
+	host := flag.String("host", "localhost", "Port for SSH Server")
 	flag.Parse()
 
 	s, err := wish.NewServer(
-		wish.WithAddress(net.JoinHostPort(host, *port)),
+		wish.WithAddress(net.JoinHostPort(*host, *port)),
 		wish.WithHostKeyPath(".ssh/id_ed25519"),
 		wish.WithMiddleware(
 			bubbletea.Middleware(teaHandler),
