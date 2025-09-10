@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"flag"
 	"net"
 	"os"
 	"os/signal"
@@ -20,12 +21,15 @@ import (
 
 const (
 	host = "localhost"
-	port = "3030"
 )
 
 func main() {
+
+	port := flag.String("port", "3030", "Port for SSH Server")
+	flag.Parse()
+
 	s, err := wish.NewServer(
-		wish.WithAddress(net.JoinHostPort(host, port)),
+		wish.WithAddress(net.JoinHostPort(host, *port)),
 		wish.WithHostKeyPath(".ssh/id_ed25519"),
 		wish.WithMiddleware(
 			bubbletea.Middleware(teaHandler),
